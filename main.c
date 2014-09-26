@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MEM 50
+#define MEM 50000
 #define NAME_LENGTH 24
 
 const char name[] = "ARNDCQEGHILKMFPSTWYVBJZX";
