@@ -6,7 +6,7 @@
 #define NAME_LENGTH 24
 
 const char name[] = "ARNDCQEGHILKMFPSTWYVBJZX";
-const int matrix[NAME_LENGTH + 1][NAME_LENGTH + 1] =
+const int matrix[][NAME_LENGTH + 1] =
     {{5,-2,-1,-2,-1,-1,-1,0,-2,-1,-1,-1,-1,-2,-1,1,0,-2,-2,0,-1,-1,-1,-1,-5},
     {-2,7,0,-1,-3,1,0,-2,0,-3,-2,3,-1,-2,-2,-1,-1,-2,-1,-2,-1,-3,1,-1,-5},
     {-1,0,6,2,-2,0,0,0,1,-2,-3,0,-2,-2,-2,1,0,-4,-2,-3,5,-3,0,-1,-5},
@@ -41,10 +41,21 @@ typedef struct {
     int score, direction;
 } point1;
 
+char *getString() {
+    int mem = 64;
+    char *str = malloc(mem);
+    fgets(str, mem, stdin);
+    while (str[strlen(str) - 1] != '\n'){
+        mem *= 2;
+        str = realloc(str,mem);
+        fgets(str + mem / 2 - 1, mem / 2 + 1, stdin);
+    }
+    return str;
+}
+
 int main(int argc, const char * argv[]) {
-    char string1[10000], string2[10000];
-    scanf("%s%s", string1, string2);
-    int len1 = (int)strlen(string1), len2 = (int)strlen(string2), seq1[len1], seq2[len2];
+    char *string1 = getString(), *string2 = getString();
+    int len1 = (int)strlen(string1) - 1, len2 = (int)strlen(string2) - 1, seq1[len1], seq2[len2];
     for (int i = 0; i < len1; i++) {
         seq1[i] = (int)(strchr(name, string1[i]) - name);
     }
@@ -231,5 +242,7 @@ int main(int argc, const char * argv[]) {
         }
         cut -= total;
     }
+    free(string1);
+    free(string2);
     return 0;
 }
