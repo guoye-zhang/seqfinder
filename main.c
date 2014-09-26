@@ -41,20 +41,22 @@ typedef struct {
     int score, direction;
 } point1;
 
-char *getString() {
+char *getString(FILE *file) {
     int mem = 64;
     char *str = malloc(mem);
-    fgets(str, mem, stdin);
+    fgets(str, mem, file);
     while (str[strlen(str) - 1] != '\n'){
         mem *= 2;
-        str = realloc(str,mem);
-        fgets(str + mem / 2 - 1, mem / 2 + 1, stdin);
+        str = realloc(str, mem);
+        fgets(str + mem / 2 - 1, mem / 2 + 1, file);
     }
     return str;
 }
 
 int main(int argc, const char * argv[]) {
-    char *string1 = getString(), *string2 = getString();
+    FILE *file = fopen(argv[1], "r");
+    char *string1 = getString(file), *string2 = getString(file);
+    fclose(file);
     int len1 = (int)strlen(string1) - 1, len2 = (int)strlen(string2) - 1, seq1[len1], seq2[len2];
     for (int i = 0; i < len1; i++) {
         seq1[i] = (int)(strchr(name, string1[i]) - name);
